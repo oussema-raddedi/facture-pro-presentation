@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FacturePro — Présentation</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0b1120; --bg2:#0f172a;
+  --primary:#6366f1; --primary2:#8b5cf6; --pink:#ec4899;
+  --success:#10b981; --warning:#f59e0b; --danger:#f43f5e; --info:#0ea5e9; --achat:#8b5cf6;
+  --text:#f8fafc; --muted:#94a3b8;
+  --glass:rgba(255,255,255,.05); --border:rgba(148,163,184,.15);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+  font-family:'Inter',sans-serif; background:var(--bg); color:var(--text);
+  height:100vh; overflow:hidden;
+  background-image:
+    radial-gradient(ellipse 70% 45% at 15% 20%, rgba(99,102,241,.18), transparent),
+    radial-gradient(ellipse 55% 40% at 85% 75%, rgba(139,92,246,.15), transparent),
+    radial-gradient(ellipse 40% 35% at 60% 10%, rgba(236,72,153,.08), transparent);
+}
+.deck{height:100vh; width:100vw; position:relative}
+.slide{
+  position:absolute; inset:0; display:flex; flex-direction:column;
+  align-items:center; justify-content:center; padding:60px 8vw;
+  opacity:0; pointer-events:none; transform:scale(.96) translateY(14px);
+  transition:all .55s cubic-bezier(.16,1,.3,1); text-align:center;
+}
+.slide.active{opacity:1; pointer-events:auto; transform:scale(1) translateY(0)}
+
+.kicker{
+  display:inline-flex; align-items:center; gap:10px; font-size:13px; font-weight:700;
+  letter-spacing:.14em; text-transform:uppercase; color:#a5b4fc;
+  background:rgba(99,102,241,.12); border:1px solid rgba(99,102,241,.3);
+  padding:8px 20px; border-radius:999px; margin-bottom:28px;
+}
+h1{font-size:clamp(44px,7vw,88px); font-weight:900; letter-spacing:-.03em; line-height:1.05;
+   background:linear-gradient(120deg,#fff 20%,#a5b4fc 55%,#f0abfc 90%);
+   -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent;}
+h2{font-size:clamp(30px,4.2vw,54px); font-weight:800; letter-spacing:-.02em; margin-bottom:18px}
+.sub{font-size:clamp(16px,1.6vw,21px); color:var(--muted); max-width:760px; line-height:1.7}
+.accent{background:linear-gradient(120deg,var(--primary),var(--primary2));
+  -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent}
+
+.logo-badge{
+  width:92px;height:92px;border-radius:26px;margin-bottom:30px;
+  background:linear-gradient(135deg,#6366f1,#8b5cf6,#a855f7);
+  display:flex;align-items:center;justify-content:center;
+  font-size:40px;font-weight:900;color:#fff;
+  box-shadow:0 20px 60px rgba(99,102,241,.45), inset 0 1px 0 rgba(255,255,255,.35);
+  animation:float 4s ease-in-out infinite;
+}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+
+.grid{display:grid; gap:22px; width:100%; max-width:1100px; margin-top:40px}
+.grid.c2{grid-template-columns:repeat(2,1fr)}
+.grid.c3{grid-template-columns:repeat(3,1fr)}
+.grid.c4{grid-template-columns:repeat(4,1fr)}
+@media(max-width:900px){.grid.c3,.grid.c4{grid-template-columns:repeat(2,1fr)}}
+.card{
+  background:var(--glass); border:1px solid var(--border); border-radius:22px;
+  padding:30px 24px; text-align:left; backdrop-filter:blur(14px);
+  transition:transform .35s ease, border-color .35s ease, box-shadow .35s ease;
+  position:relative; overflow:hidden;
+}
+.card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;opacity:.7;
+  background:linear-gradient(90deg,var(--primary),var(--primary2));}
+.card:hover{transform:translateY(-6px); border-color:rgba(99,102,241,.45); box-shadow:0 24px 50px rgba(0,0,0,.4)}
+.card .ic{font-size:36px; margin-bottom:14px; display:block}
+.card h3{font-size:18px; font-weight:700; margin-bottom:8px}
+.card p{font-size:14px; color:var(--muted); line-height:1.65}
+.card .tag{display:inline-block;margin-top:12px;font-size:11px;font-weight:700;padding:4px 12px;border-radius:999px;
+  background:rgba(99,102,241,.15); color:#a5b4fc; border:1px solid rgba(99,102,241,.3)}
+
+.big-num{font-size:clamp(48px,6vw,76px); font-weight:900; letter-spacing:-.03em; line-height:1;
+  background:linear-gradient(135deg,#6366f1,#a855f7); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent}
+.stat .lbl{font-size:13px; color:var(--muted); font-weight:600; margin-top:8px}
+
+.flow{display:flex; align-items:center; gap:0; width:100%; max-width:1050px; margin-top:44px; flex-wrap:wrap; justify-content:center}
+.step{
+  background:var(--glass); border:1px solid var(--border); border-radius:18px;
+  padding:20px 18px; width:170px; text-align:center; backdrop-filter:blur(10px);
+}
+.step .n{width:34px;height:34px;border-radius:50%;margin:0 auto 10px;display:flex;align-items:center;justify-content:center;
+  background:linear-gradient(135deg,var(--primary),var(--primary2));font-weight:800;font-size:15px;color:#fff}
+.step h4{font-size:14px;font-weight:700;margin-bottom:5px}
+.step p{font-size:12px;color:var(--muted);line-height:1.5}
+.arrow{color:#6366f1;font-size:22px;padding:0 10px;font-weight:700}
+
+ul.feat{list-style:none; text-align:left; max-width:640px; margin:30px auto 0; width:100%}
+ul.feat li{
+  padding:14px 18px; margin-bottom:12px; border-radius:14px; font-size:16px;
+  background:var(--glass); border:1px solid var(--border); backdrop-filter:blur(10px);
+  display:flex; gap:12px; align-items:center;
+}
+ul.feat li b{font-weight:700}
+
+.ui-mock{
+  width:100%; max-width:980px; margin-top:36px; border-radius:18px; overflow:hidden;
+  border:1px solid var(--border); box-shadow:0 40px 90px rgba(0,0,0,.5);
+  background:var(--bg2); text-align:left;
+}
+.ui-bar{display:flex; gap:10px; padding:12px 16px; background:rgba(255,255,255,.04); border-bottom:1px solid var(--border)}
+.dot{width:11px;height:11px;border-radius:50%}
+.ui-body{display:grid; grid-template-columns:1fr 1fr; gap:0}
+@media(max-width:800px){.ui-body{grid-template-columns:1fr}}
+.ui-pane{padding:22px}
+.ui-pane.right{border-left:1px solid var(--border)}
+@media(max-width:800px){.ui-pane.right{border-left:none;border-top:1px solid var(--border)}}
+.fld{height:12px;border-radius:6px;background:rgba(255,255,255,.08);margin-bottom:12px}
+.fld.short{width:55%}
+.pill{display:inline-block;padding:7px 16px;border-radius:999px;font-size:12px;font-weight:800;margin:4px 6px 0 0}
+.pill.g{background:rgba(16,185,129,.15);color:#34d399;border:1px solid rgba(16,185,129,.35)}
+.pill.o{background:rgba(245,158,11,.15);color:#fbbf24;border:1px solid rgba(245,158,11,.35)}
+.pill.r{background:rgba(244,63,94,.15);color:#fb7185;border:1px solid rgba(244,63,94,.35)}
+.pill.v{background:rgba(139,92,246,.15);color:#c4b5fd;border:1px solid rgba(139,92,246,.35)}
+
+.nav{position:fixed; bottom:28px; left:50%; transform:translateX(-50%); display:flex; gap:14px; align-items:center; z-index:50}
+.nav button{
+  width:48px;height:48px;border-radius:50%;border:1px solid var(--border);cursor:pointer;
+  background:rgba(255,255,255,.06); color:var(--text); font-size:19px; backdrop-filter:blur(12px);
+  transition:all .25s ease;
+}
+.nav button:hover{background:linear-gradient(135deg,var(--primary),var(--primary2)); border-color:transparent; transform:scale(1.1)}
+.counter{font-size:13px; font-weight:700; color:var(--muted); min-width:64px; text-align:center; letter-spacing:.05em}
+.dots{position:fixed; right:30px; top:50%; transform:translateY(-50%); display:flex; flex-direction:column; gap:10px; z-index:50}
+.dots span{width:9px;height:9px;border-radius:50%;background:rgba(148,163,184,.3);cursor:pointer;transition:all .3s}
+.dots span.on{background:linear-gradient(135deg,var(--primary),var(--primary2)); transform:scale(1.4); box-shadow:0 0 14px rgba(99,102,241,.7)}
+
+.two-col{display:grid; grid-template-columns:1fr 1fr; gap:48px; align-items:center; width:100%; max-width:1100px; text-align:left}
+@media(max-width:850px){.two-col{grid-template-columns:1fr; text-align:center}}
+
+.q{font-size:clamp(20px,2.4vw,30px); font-weight:700; line-height:1.5; font-style:italic; color:#e2e8f0}
+.badge-row{display:flex; gap:12px; flex-wrap:wrap; justify-content:center; margin-top:34px}
+.badge{padding:10px 22px; border-radius:999px; font-size:14px; font-weight:700;
+  background:var(--glass); border:1px solid var(--border); color:#c7d2fe; backdrop-filter:blur(8px)}
+.hint{position:fixed; top:22px; right:28px; font-size:12px; color:var(--muted); z-index:50; letter-spacing:.05em}
+</style>
+</head>
+<body>
+
+<div class="hint">← → naviguer &nbsp;·&nbsp; F plein écran</div>
+
+<div class="deck" id="deck">
+
+  <!-- 1. TITLE -->
+  <section class="slide active">
+    <div class="logo-badge">FP</div>
+    <span class="kicker">✨ Présentation Projet</span>
+    <h1>FacturePro</h1>
+    <p class="sub" style="margin-top:20px">Application web de <b>gestion de factures et d'achats</b> pour les entreprises tunisiennes 🇹🇳<br>
+    Création · Aperçu en direct · OCR · Dashboard · Chatbot IA</p>
+    <div class="badge-row">
+      <span class="badge">🌐 FR / AR / EN</span>
+      <span class="badge">🌓 Dark / Light</span>
+      <span class="badge">📱 Responsive</span>
+      <span class="badge">🤖 IA intégrée</span>
+    </div>
+  </section>
+
+  <!-- 2. PROBLEME / SOLUTION -->
+  <section class="slide">
+    <span class="kicker">💡 Le constat</span>
+    <h2>Facturation <span class="accent">pénible</span> ?<br>Pas avec FacturePro.</h2>
+    <div class="grid c3">
+      <div class="card"><span class="ic">⏳</span><h3>Avant : manuel</h3><p>Word, Excel, calculs à la main, TVA oubliée, PDF mal formaté, aucun suivi des paiements.</p><span class="tag">❌ Stress</span></div>
+      <div class="card"><span class="ic">🎯</span><h3>La solution</h3><p>Tout-en-un : créer, prévisualiser en direct, sauvegarder, télécharger en PDF, suivre, analyser.</p><span class="tag">✅ Un seul outil</span></div>
+      <div class="card"><span class="ic">🚀</span><h3>Résultat</h3><p>Une facture pro en moins de 2 minutes, avec statuts, rappels automatiques et statistiques.</p><span class="tag">⚡ Rapide</span></div>
+    </div>
+  </section>
+
+  <!-- 3. APERÇU / 4 TABS -->
+  <section class="slide">
+    <span class="kicker">🧭 Vue d'ensemble</span>
+    <h2>4 modules, <span class="accent">une seule interface</span></h2>
+    <div class="grid c4">
+      <div class="card"><span class="ic">📝</span><h3>Créer Facture</h3><p>Formulaire intelligent avec aperçu en direct à chaque frappe.</p></div>
+      <div class="card"><span class="ic">📋</span><h3>Mes Factures</h3><p>Liste, recherche, statuts Payée / En attente / En retard.</p></div>
+      <div class="card"><span class="ic">🧾</span><h3>Achats</h3><p>Upload fournisseur + OCR + conversion de devise automatique.</p></div>
+      <div class="card"><span class="ic">📊</span><h3>Dashboard</h3><p>CA, marges, graphiques, top clients, tendances mensuelles.</p></div>
+    </div>
+  </section>
+
+  <!-- 4. CREATION -->
+  <section class="slide">
+    <span class="kicker">📝 Module 1 — Création</span>
+    <h2>Formulaire <span class="accent">+ Aperçu en direct</span></h2>
+    <div class="two-col">
+      <div>
+        <p class="sub" style="text-align:left">Chaque saisie met à jour la facture <b>en temps réel</b> :</p>
+        <ul class="feat">
+          <li>🏢 <b>Entreprise</b> auto-sauvegardée + logo personnalisable</li>
+          <li>🧮 <b>TVA & remise</b> calculées automatiquement</li>
+          <li>📄 <b>N° facture</b> auto-incrémenté (non réutilisable)</li>
+          <li>🌍 <b>3 langues</b> : Français · العربية · English (RTL inclus)</li>
+        </ul>
+      </div>
+      <div class="ui-mock">
+        <div class="ui-bar"><span class="dot" style="background:#f43f5e"></span><span class="dot" style="background:#f59e0b"></span><span class="dot" style="background:#10b981"></span></div>
+        <div class="ui-body">
+          <div class="ui-pane">
+            <div class="fld"></div><div class="fld"></div><div class="fld short"></div>
+            <div class="fld" style="margin-top:20px"></div><div class="fld"></div><div class="fld short"></div>
+            <div style="margin-top:18px"><span class="pill v">➕ Article</span><span class="pill g">💾 Sauvegarder</span></div>
+          </div>
+          <div class="ui-pane right" style="background:rgba(99,102,241,.05)">
+            <div style="font-size:34px;font-weight:900;letter-spacing:4px;color:rgba(255,255,255,.25)">FACTURE</div>
+            <div class="fld" style="margin-top:16px"></div><div class="fld"></div><div class="fld short"></div>
+            <div style="margin-top:18px;font-size:24px;font-weight:800;background:linear-gradient(135deg,#6366f1,#a855f7);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent">1 234.560 DT</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. PDF -->
+  <section class="slide">
+    <span class="kicker">📄 Export professionnel</span>
+    <h2>PDF <span class="accent">en un clic</span></h2>
+    <div class="flow">
+      <div class="step"><div class="n">1</div><h4>Remplir</h4><p>Client, articles, TVA, remise</p></div>
+      <div class="arrow">→</div>
+      <div class="step"><div class="n">2</div><h4>Aperçu</h4><p>Rendu exact en temps réel</p></div>
+      <div class="arrow">→</div>
+      <div class="step"><div class="n">3</div><h4>PDF A4</h4><p>Généré via html2canvas + jsPDF</p></div>
+      <div class="arrow">→</div>
+      <div class="step"><div class="n">4</div><h4>Envoyer</h4><p>Prêt pour le client ✅</p></div>
+    </div>
+    <p class="sub" style="margin-top:36px">Design premium : logo, dégradés, notes & conditions, <b>totaux détaillés</b>.</p>
+  </section>
+
+  <!-- 6. LISTE & STATUTS -->
+  <section class="slide">
+    <span class="kicker">📋 Module 2 — Suivi</span>
+    <h2>Chaque facture a <span class="accent">son statut</span></h2>
+    <div style="margin-top:26px">
+      <span class="pill g">✅ Payée</span>
+      <span class="pill o">⏳ En attente</span>
+      <span class="pill r">❌ En retard</span>
+    </div>
+    <ul class="feat" style="margin-top:34px">
+      <li>🔍 <b>Recherche instantanée</b> par N° ou nom de client</li>
+      <li>👁️ <b>Voir / ✏️ Modifier / 🗑️ Supprimer</b> avec confirmation</li>
+      <li>⏰ <b>Notifications automatiques</b> — toasts persistants pour les factures en retard</li>
+      <li>🚫 <b>Numéros non réutilisables</b> — traçabilité garantie</li>
+    </ul>
+  </section>
+
+  <!-- 7. ACHATS + OCR -->
+  <section class="slide">
+    <span class="kicker">🧾 Module 3 — Achats fournisseurs</span>
+    <h2>Upload + <span class="accent">OCR intelligent</span></h2>
+    <div class="grid c3">
+      <div class="card"><span class="ic">📤</span><h3>Upload PDF / Image</h3><p>Glissez une facture fournisseur : PDF (pdf.js) ou image (Tesseract OCR : fra + ara + eng).</p><span class="tag">Lecture auto</span></div>
+      <div class="card"><span class="ic">🤖</span><h3>Extraction auto</h3><p>Fournisseur, email, téléphone, date, N° facture, montant TTC, TVA — détectés et pré-remplis.</p><span class="tag">~15 champs</span></div>
+      <div class="card"><span class="ic">💱</span><h3>Devises</h3><p>EUR / USD / GBP convertis en DT avec taux en direct (open.er-api.com) + mention au dossier.</p><span class="tag">Multi-devise</span></div>
+    </div>
+    <p class="sub" style="margin-top:30px">➕ <b>N° facture fournisseur</b> séparé du N° interne, fichier joint consultable à tout moment.</p>
+  </section>
+
+  <!-- 8. DASHBOARD -->
+  <section class="slide">
+    <span class="kicker">📊 Module 4 — Pilotage</span>
+    <h2>Dashboard <span class="accent">en temps réel</span></h2>
+    <div class="grid c4" style="margin-top:26px">
+      <div class="card stat" style="text-align:center"><div class="big-num">6</div><div class="lbl">Statistiques clés</div></div>
+      <div class="card stat" style="text-align:center"><div class="big-num">5</div><div class="lbl">Graphiques Chart.js</div></div>
+      <div class="card stat" style="text-align:center"><div class="big-num">📅</div><div class="lbl">Filtres Année / Mois / Jour</div></div>
+      <div class="card stat" style="text-align:center"><div class="big-num">🏆</div><div class="lbl">Top Clients</div></div>
+    </div>
+    <ul class="feat" style="margin-top:30px">
+      <li>📈 <b>CA Ventes vs Achats</b> comparés mois par mois → <b>marge nette</b> visible</li>
+      <li>📉 <b>Tendance mensuelle</b> : revenus, achats et nombre de factures</li>
+    </ul>
+  </section>
+
+  <!-- 9. CHATBOT -->
+  <section class="slide">
+    <span class="kicker">🤖 Assistant Pro</span>
+    <h2>Un chatbot qui <span class="accent">agit vraiment</span></h2>
+    <div class="two-col">
+      <div>
+        <p class="q">« Ch7al bitbi3a ? » · « فاتورة رقم 3 » · « creer facture »</p>
+        <ul class="feat" style="margin-top:26px">
+          <li>💬 <b>FR + Darija + AR</b> compris nativement</li>
+          <li>⚡ <b>Gemini AI</b> : répond ET exécute (créer / modifier / supprimer)</li>
+          <li>🧙 <b>Wizard local</b> de création de facture étape par étape</li>
+          <li>🔍 <b>Recherche unifiée</b> factures + achats (N°, client, fournisseur)</li>
+          <li>📊 Stats chatbot : réponses IA vs locales, quota journalier</li>
+        </ul>
+      </div>
+      <div class="ui-mock" style="max-width:420px; margin:0 auto">
+        <div class="ui-bar" style="background:linear-gradient(135deg,#6366f1,#8b5cf6)"><span style="font-size:13px;font-weight:700">🤖 Assistant Pro</span><span style="margin-left:auto;font-size:11px;opacity:.9">● En ligne</span></div>
+        <div class="ui-pane">
+          <div style="background:rgba(255,255,255,.06);border-radius:14px;padding:10px 14px;font-size:13px;margin-bottom:10px;display:inline-block;max-width:85%">Salam! 👋 Que puis-je faire pour vous?</div>
+          <div style="background:linear-gradient(135deg,#6366f1,#8b5cf6);border-radius:14px;padding:10px 14px;font-size:13px;margin-bottom:10px;display:inline-block;float:right;max-width:85%;clear:both">Facture mt3 Ali</div>
+          <div style="background:rgba(255,255,255,.06);border-radius:14px;padding:10px 14px;font-size:13px;display:inline-block;max-width:85%;clear:both">📄 INV-001 — Ali Ben Salah — 1 131.000 DT ✅</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 10. TECH -->
+  <section class="slide">
+    <span class="kicker">⚙️ Stack technique</span>
+    <h2>100% front-end, <span class="accent">zéro installation</span></h2>
+    <div class="grid c3">
+      <div class="card"><span class="ic">📦</span><h3>Vanilla JS</h3><p>HTML / CSS / JS purs — un seul fichier, aucun framework à installer. Ouvrir &amp; ça marche.</p></div>
+      <div class="card"><span class="ic">🔌</span><h3>API MySQL optionnelle</h3><p>Sync avec <b>/api/invoices</b> ; fallback localStorage si le serveur est indisponible.</p></div>
+      <div class="card"><span class="ic">🧰</span><h3>Librairies CDN</h3><p>Chart.js · jsPDF · html2canvas · Tesseract.js · pdf.js</p></div>
+    </div>
+    <div class="badge-row" style="margin-top:34px">
+      <span class="badge">🌓 Thème sombre/clair</span>
+      <span class="badge">⌨️ Raccourcis clavier (Échap)</span>
+      <span class="badge">🖨️ Impression A4 native</span>
+    </div>
+  </section>
+
+  <!-- 11. CONCLUSION -->
+  <section class="slide">
+    <div class="logo-badge">🎉</div>
+    <h2>Merci de votre <span class="accent">attention !</span></h2>
+    <p class="sub" style="margin-top:18px">FacturePro — la facturation tunisienne, <b>simple, rapide et intelligente</b>.<br>
+    Des questions ? L'Assistant Pro est déjà là pour y répondre 😄</p>
+    <div class="badge-row">
+      <span class="badge">📝 Créer</span>
+      <span class="badge">📋 Suivre</span>
+      <span class="badge">🧾 Acheter</span>
+      <span class="badge">📊 Analyser</span>
+    </div>
+  </section>
+
+</div>
+
+<div class="dots" id="dots"></div>
+<div class="nav">
+  <button onclick="prev()" aria-label="Précédent">‹</button>
+  <span class="counter" id="counter">1 / 11</span>
+  <button onclick="next()" aria-label="Suivant">›</button>
+</div>
+
+<script>
+const slides=[...document.querySelectorAll('.slide')];
+const dotsBox=document.getElementById('dots');
+let i=0;
+slides.forEach((_,k)=>{const d=document.createElement('span');d.onclick=()=>go(k);dotsBox.appendChild(d)});
+function go(k){
+  slides[i].classList.remove('active');
+  i=(k+slides.length)%slides.length;
+  slides[i].classList.add('active');
+  document.getElementById('counter').textContent=(i+1)+' / '+slides.length;
+  [...dotsBox.children].forEach((d,j)=>d.classList.toggle('on',j===i));
+}
+function next(){go(i+1)} function prev(){go(i-1)}
+document.addEventListener('keydown',e=>{
+  if(e.key==='ArrowRight'||e.key===' '||e.key==='PageDown'){e.preventDefault();next();}
+  if(e.key==='ArrowLeft'||e.key==='PageUp'){e.preventDefault();prev();}
+  if(e.key==='Home')go(0); if(e.key==='End')go(slides.length-1);
+  if(e.key.toLowerCase()==='f'){document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen();}
+});
+let tx=null;
+document.addEventListener('touchstart',e=>tx=e.touches[0].clientX);
+document.addEventListener('touchend',e=>{if(tx===null)return;const dx=e.changedTouches[0].clientX-tx;if(Math.abs(dx)>50){dx<0?next():prev();}tx=null;});
+go(0);
+</script>
+</body>
+</html>
